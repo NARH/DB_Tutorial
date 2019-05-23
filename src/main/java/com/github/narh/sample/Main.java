@@ -54,6 +54,10 @@ public class Main {
     String sql = "select test.*, test_dtl.* from test left outer join test_dtl on test_dtl.id = test.id";
     Statement stmt = conn.createStatement();
     ResultSet rs = stmt.executeQuery(sql);
+    ResultSetMetaData rsmd = rs.getMetaData();
+    for(int i = 0; i < rsmd.getColumnCount(); i++)
+      System.out.printf("%s.%s\n",rsmd.getTableName(i+1), rsmd.getColumnLabel(i+1));
+
     while(rs.next()) {
       System.out.printf("%s=%s\n", "TEST.ID", rs.getString(columns.get("TEST.ID")));
       System.out.printf("%s=%s\n", "TEST_DTL.ID", rs.getString(columns.get("TEST_DTL.ID")));
