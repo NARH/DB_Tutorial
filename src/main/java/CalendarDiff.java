@@ -5,8 +5,8 @@ public class CalendarDiff {
   static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   public static void main(String ...args) throws Exception {
-    Calendar cal1 = getCalendar("2019-01-01 00:00:00");
-    Calendar cal2 = getCalendar("2019-01-31 23:59:59");
+    Calendar cal1 = getCalendar("2019-02-27 00:00:00");
+    Calendar cal2 = getCalendar("2019-03-26 23:59:59");
     System.out.printf("daily span = %d days\n", diffDate(cal1, cal2));
 
     String result = (isMonthlySpan(cal1, cal2)) ? "OK" : "NG";
@@ -43,14 +43,23 @@ public class CalendarDiff {
     return (time2 - time1) + 1000L;
   }
 
+  public static boolean isMonthlySpan(final Calendar cal, final int span) throws Exception {
+    int fromDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+    return (fromDayOfMonth == span);
+  }
+
   public static boolean isMonthlySpan(final Calendar cal1, final Calendar cal2) throws Exception {
     int fromDayOfMonth = cal1.getActualMaximum(Calendar.DAY_OF_MONTH);
     int monthlySpan = diffDate(cal1, cal2);
-    return (fromDayOfMonth == monthlySpan);
+    return isMonthlySpan(cal1, monthlySpan);
+  }
+
+  public static boolean isDailySpan(final int span) throws Exception {
+    return (24 == span);
   }
 
   public static boolean isDailySpan(final Calendar cal1, final Calendar cal2) throws Exception {
-    return (24 == diffHour(cal1, cal2));
+    return isDailySpan(diffHour(cal1, cal2));
   }
 }
 // vim: set ts=2 sw=2 sts=2 expandtab ff=unix fenc=utf-8:
